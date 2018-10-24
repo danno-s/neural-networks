@@ -98,8 +98,8 @@ class PerceptronTest(unittest.TestCase):
             if e == r.process(i):
                 correct += 1
 
-        # We expect a 90% success rate for such a simple problem
-        assert correct / 100.0 >= 0.9
+        # We expect a 85% success rate for such a simple problem
+        self.assertGreaterEqual(correct / 100.0 , 0.85)
 
 if __name__ == '__main__':
     unittest.main()

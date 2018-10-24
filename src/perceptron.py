@@ -1,5 +1,4 @@
 from random import random
-from math import exp
 
 class Perceptron():
     def __init__(self, weights, bias=0, learning_rate=0.5, output_fun=lambda x: int(x > 0)):
@@ -42,9 +41,6 @@ class RandomPerceptron(Perceptron):
     def __init__(self, inputs, **kwargs):
         self.weights = [random() * 2 - 1 for _ in range(inputs)]
         self.bias = random() * 2 - 1
+        self.delta = None
+        self.output = None
         super(RandomPerceptron, self).__init__(self.weights, self.bias, **kwargs)
-
-class SigmoidNeuron(RandomPerceptron):
-    def __init__(self, inputs, activation_fun = lambda x: 1 / (1 + exp(-x)),**kwargs):
-        kwargs['output_fun'] = activation_fun
-        super(SigmoidNeuron, self).__init__(inputs, **kwargs)

@@ -18,8 +18,8 @@ class Layer():
             return self.next_layer.process(results)
 
     def propagate_error(self, expecteds=None):
-        if expecteds:
-            for neuron, expected in zip(neuron, expecteds):
+        if expecteds is not None:
+            for neuron, expected in zip(self.neurons, expecteds):
                 error = expected - neuron.output
                 neuron.adjust_delta(error)
         else:
@@ -33,7 +33,7 @@ class Layer():
             self.previous_layer.propagate_error()
 
     def update_weights(self, initial_inputs):
-        assert [neuron.delta is not None for neuron in self].all(), "Some neurons have uninitialized deltas"
+        assert all([neuron.delta is not None for neuron in self]), "Some neurons have uninitialized deltas"
 
         if self.previous_layer:
             inputs = [neuron.output for neuron in self.previous_layer]
@@ -45,7 +45,7 @@ class Layer():
             neuron.adjust_bias()
 
         if self.next_layer:
-            self.next_layer.update_weight(initial_inputs)
+            self.next_layer.update_weights(initial_inputs)
 
     def __iter__(self):
         '''If one iterates through a layer, then one iterates through its neurons.

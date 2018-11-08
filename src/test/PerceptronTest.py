@@ -77,7 +77,7 @@ class PerceptronTest(unittest.TestCase):
         
         # Then, we generate a set of random inputs within a square of side 50, centered in the origin
         inputs = [
-            [random() * 50 - 50, random() * 50 - 50] for _ in range(100)
+            [random() * 50 - 50, random() * 50 - 50] for _ in range(500)
         ]
 
         expecteds = [int(coord[1] > coord[0] * m + n) for coord in inputs]
@@ -87,7 +87,7 @@ class PerceptronTest(unittest.TestCase):
 
         # Then we check to see if it actually learned, by generating some new inputs and checking the success rate
         test_inputs = [
-            [random() * 50 - 50, random() * 50 - 50] for _ in range(100)
+            [random() * 50 - 50, random() * 50 - 50] for _ in range(500)
         ]
 
         test_expecteds = [int(coord[1] > coord[0] * m + n) for coord in test_inputs]
@@ -98,8 +98,8 @@ class PerceptronTest(unittest.TestCase):
             if e == r.process(i):
                 correct += 1
 
-        # We expect a 85% success rate for such a simple problem
-        self.assertGreaterEqual(correct / 100.0 , 0.85)
+        # We expect a 95% success rate for such a simple problem
+        self.assertGreaterEqual(correct / 500.0 , 0.95)
 
 if __name__ == '__main__':
     unittest.main()

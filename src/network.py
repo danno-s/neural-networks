@@ -55,4 +55,4 @@ class Network():
         self.last_layer.propagate_error(expecteds)
 
     def update_weights(self, inputs):
-        self.first_layer.update_weight(inputs)
+        self.first_layer.update_weights(inputs)

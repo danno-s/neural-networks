@@ -16,8 +16,8 @@
 \usepackage[utf8]{inputenc} % Codificación UTF-8
 
 % INFORMACIÓN DEL DOCUMENTO
-\def\titulodelinforme {Título}
-\def\temaatratar {Tema a Tratar}
+\def\titulodelinforme {Redes Neuronales}
+\def\temaatratar {Leyendo números}
 
 \def\autordeldocumento {Daniel Soto}
 \def\nombredelcurso {Redes Neuronales y Programación Genética}
@@ -48,7 +48,7 @@
   Ayudantes:
     & \begin{tabular}[t]{@{}l@{}}
       Alonso Reyes \\
-       Gabriel Chandia \\
+      Gabriel Chandia \\
     \end{tabular} \\
 	\multicolumn{2}{l}{Fecha de entrega: \today} \\
 	\multicolumn{2}{l}{\localizacionuniversidad}
@@ -86,13 +86,75 @@
 % CONFIGURACIÓN DE PÁGINA Y ENCABEZADOS
 \input{lib/pageconf}
 
-% TABLA DE CONTENIDOS - ÍNDICE
-\input{lib/index} % Índice, se puede borrar
-
 % CONFIGURACIONES FINALES
 \input{lib/finalconf}
 
 % ======================= INICIO DEL DOCUMENTO =======================
+
+\section*{Repositorio}
+  Todo el código y datos mencionados en este informe se encuentran en el \href{https://github.com/danno-s/neural-networks}{siguiente repositorio}.
+
+\section*{Dataset y objetivos}
+  Se utilizó un dataset de \href{https://archive.ics.uci.edu/ml/datasets/Optical+Recognition+of+Handwritten+Digits}{dígitos escritos a mano}, con el objetivo de lograr reconocer qué valor tiene cada imágen. Estas imágenes son de 4 bits por pixel, y de $8 \times 8$ pixeles. Todos los datos se encuentran marcados con el dígito que representan.
+
+\section*{Ejecución de la red}
+  La red completa fue programada en Python 3.6, sin utilizar ninguna librería externa. Para ejecutarla con este dataset, basta con ejecutar en la terminal \texttt{\$ python3 src/main.py}.
+
+\section*{Experimentos y análisis}
+  Se comenzó probando redes de capa intermedia, hasta 5 capas intermedias, todas de 16 neuronas y con \texttt{learning\_rate=0.5}. Los aciertos mostrados son el promedio de 5 ejecuciones.
+
+  \begin{figure}
+    \centering
+    \begin{tabular}{|c|c|}
+      \hline
+      Número de capas intermedias & Aciertos \\
+      \hline
+      $1$ & $43.68\%$ \\
+      \hline
+      $2$ & $44.48\%$ \\
+      \hline
+      $3$ & $47.27\%$ \\
+      \hline
+      $4$ & $36.38\%$ \\
+      \hline
+      $5$ & $24.80\%$ \\
+      \hline
+    \end{tabular}
+    \caption{Efecto de variar el número de capas en la red.}
+  \end{figure}
+
+
+  Claramente el número óptimo de capas intermedias parece ser 3. Luego se continuó experimentando con el número de neuronas dentro de estas capas. Se probaron los siguientes números de neurona para las 3 capas:
+
+  \begin{itemize}
+    \item $(16, 16, 16)$
+    \item $(64, 16, 16)$
+    \item $(64, 64, 16)$
+    \item $(64, 64, 64)$
+    \item $(64, 128, 64)$
+  \end{itemize}
+
+  \begin{figure}
+    \centering
+    \begin{tabular}{|c|c|}
+      \hline
+      Número de neuronas & Aciertos \\
+      \hline
+      $(16, 16, 16)$ & $47.27\%$ \\
+      \hline
+      $(64, 16, 16)$ & $54.10\%$ \\
+      \hline
+      $(64, 64, 16)$ & $66.12\%$ \\
+      \hline
+      $(64, 64, 64)$ & $59.82\%$ \\
+      \hline
+      $(64, 128, 64)$ & $57.39\%$ \\
+      \hline
+    \end{tabular}
+    \caption{Efecto del número de neuronas en las capas intermedias}
+  \end{figure}
+
+  De esto, pareciera ser que es bueno ir reduciendo de a poco la cantidad de neuronas en las redes, hasta llegar al número de outputs necesario. Esto nos lleva a probar con una configuración específica. Al realizar el mismo experimento con 4 capas ocultas, $(128, 64, 64, 16)$, se obtuvo un porcentaje de aciertos promedio de $70.69\%$.
 
 % FIN DEL DOCUMENTO
 \end{document}
